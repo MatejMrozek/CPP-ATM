@@ -36,8 +36,8 @@ int main() {
         cout << "1 - Register a new account." << endl;
         cout << "2 - Log into an existing account." << endl;
         cout << "3 - Exit." << endl;
-        cout << "------------------------------------------------------" << endl;
-        cout << endl << "Select an option: " << endl;
+        cout << "------------------------------------------------------" << endl << endl;
+        cout << "Select an option: " << endl;
         int option;
         cin >> option;
         cout << endl;
