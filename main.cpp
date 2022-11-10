@@ -95,6 +95,8 @@ int main() {
                 cout << "Successfully registered with username " << newUsername << "!" << endl;
                 sleep(2);
                 system("cls");
+
+                goto SELECT_LOGIN_OPTION;
             }
             case 2: {
                 system("cls");
@@ -109,13 +111,19 @@ int main() {
                 cout << "Enter your username: " << endl;
                 cin >> user;
                 cout << endl;
+                bool invalid = true;
                 for (const string& username : users) {
                     if (strcasecmp(user.c_str(), username.c_str()) == 0) {
-                        cout << "Invalid username! Try again." << endl;
-                        goto LOGIN_ENTER_USERNAME;
+                        invalid = false;
+                        break;
                     }
 
                     userNumber++;
+                }
+
+                if (invalid) {
+                    cout << "Invalid username! Try again." << endl;
+                    goto LOGIN_ENTER_USERNAME;
                 }
 
                 LOGIN_ENTER_PASSWORD:
