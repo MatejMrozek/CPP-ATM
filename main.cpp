@@ -36,43 +36,43 @@ int main() {
         cout << "1 - Register a new account." << endl;
         cout << "2 - Log into an existing account." << endl;
         cout << "3 - Exit." << endl;
-        cout << "------------------------------------------------------" << endl;
-        cout << endl << "Select an option: " << endl;
+        cout << "------------------------------------------------------" << endl << endl;
+        cout << "Select an option: " << endl;
         int option;
         cin >> option;
         cout << endl;
         switch (option) {
             case 1: {
+                system("cls");
+
+                cout << "------------------------------------------------------" << endl;
+                cout << "Register a new account" << endl;
+                cout << "------------------------------------------------------" << endl << endl;
+
                 REGISTER_ENTER_USERNAME:
-                bool invalidInput = false;
-                bool taken = false;
                 string newUsername;
                 cout << "Enter your new username: " << endl;
                 cin >> newUsername;
                 cout << endl;
                 if (newUsername.length() < 3) {
                     cout << "Usernames have to contain at least 3 characters." << endl;
-                    invalidInput = true;
+                    goto REGISTER_ENTER_USERNAME;
                 } else if (newUsername.length() > 16) {
                     cout << "Usernames cant have more than 16 characters." << endl;
-                    invalidInput = true;
+                    goto REGISTER_ENTER_USERNAME;
                 } else if (newUsername.find_first_of("0123456789") != string::npos) {
                     cout << "Usernames can't contain numbers." << endl;
-                    invalidInput = true;
-                }
-
-                if (!invalidInput) {
-                    for (const string& username : users) {
-                        if (strcasecmp(newUsername.c_str(), username.c_str()) == 0) {
-                            taken = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (taken) {
-                    cout << "Username already taken! Try again." << endl;
                     goto REGISTER_ENTER_USERNAME;
+                } else if (newUsername.find_first_of(' ') != string::npos) {
+                    cout << "Usernames can't contain spaces." << endl;
+                    goto REGISTER_ENTER_USERNAME;
+                }
+
+                for (const string& username : users) {
+                    if (strcasecmp(newUsername.c_str(), username.c_str()) == 0) {
+                        cout << "Username already taken! Try again." << endl;
+                        goto REGISTER_ENTER_USERNAME;
+                    }
                 }
 
                 REGISTER_ENTER_PASSWORD:
@@ -82,6 +82,9 @@ int main() {
                 cout << endl;
                 if (newPassword.length() < 8) {
                     cout << "Passwords have to contain at least 8 characters." << endl;
+                    goto REGISTER_ENTER_PASSWORD;
+                } else if (newPassword.find_first_of(' ') != string::npos) {
+                    cout << "Passwords can't contain spaces." << endl;
                     goto REGISTER_ENTER_PASSWORD;
                 }
 
@@ -94,8 +97,13 @@ int main() {
                 system("cls");
             }
             case 2: {
+                system("cls");
+
+                cout << "------------------------------------------------------" << endl;
+                cout << "Log into an existing account" << endl;
+                cout << "------------------------------------------------------" << endl << endl;
+
                 LOGIN_ENTER_USERNAME:
-                bool invalidInput = true;
                 int userNumber = 0;
                 string user;
                 cout << "Enter your username: " << endl;
@@ -103,16 +111,11 @@ int main() {
                 cout << endl;
                 for (const string& username : users) {
                     if (strcasecmp(user.c_str(), username.c_str()) == 0) {
-                        invalidInput = false;
-                        break;
+                        cout << "Invalid username! Try again." << endl;
+                        goto LOGIN_ENTER_USERNAME;
                     }
 
                     userNumber++;
-                }
-
-                if (invalidInput) {
-                    cout << "Invalid username! Try again." << endl;
-                    goto LOGIN_ENTER_USERNAME;
                 }
 
                 LOGIN_ENTER_PASSWORD:
@@ -132,8 +135,9 @@ int main() {
                 break;
             }
             case 3: {
+                system("cls");
                 cout << "Exiting...";
-                sleep(2);
+                sleep(1);
                 return 0;
             }
             default: {
@@ -209,9 +213,7 @@ int main() {
                     sleep(2);
                     system("cls");
                     goto SENDING;
-                }
-
-                if (invalid) {
+                } else if (invalid) {
                     cout << "This user does not exist." << endl;
                     sleep(2);
                     system("cls");
