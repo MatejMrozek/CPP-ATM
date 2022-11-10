@@ -19,115 +19,115 @@ vector<string> passwords = {
 
 string loggedUser = "0";
 
-void print(string text, bool endlBefore) {
-    cout << (endlBefore ? "\n" : "") << text << endl;
-}
-
-void print(string text) {
-    print(text, false);
-}
-
-void print() {
-    print("");
-}
-
 int main() {
     START:
 
     if (loggedUser == "0") {
         SELECT_LOGIN_OPTION:
 
-        print("Welcome to our ATM, please select what you want to do.");
-        print("1 - Register a new account.");
-        print("2 - Log into an existing account.");
-        print();
+        cout << "------------------------------------------------------" << endl;
+        cout << "Welcome to our ATM, please select what you want to do." << endl;
+        cout << "1 - Register a new account." << endl;
+        cout << "2 - Log into an existing account." << endl;
+        cout << "------------------------------------------------------" << endl;
+        cout << endl << "Selected option: " << endl;
 
-        int loginInput;
-        cin >> loginInput;
-        if (loginInput == 1) {
+        int option;
+        cin >> option;
+        switch (option) {
+            case 1: {
             REGISTER_ENTER_USERNAME:
-            bool invalidInput = false;
-            bool taken = false;
-            string newUsername;
-            print("Enter your new username: ", true);
-            cin >> newUsername;
-            if (newUsername.length() < 3 || newUsername.find_first_of("0123456789") != string::npos) {
-                invalidInput = true;
-            }
+                bool invalidInput = false;
+                bool taken = false;
+                string newUsername;
+                cout << endl << "Enter your new username: " << endl;
+                cin >> newUsername;
+                if (newUsername.length() < 3 || newUsername.find_first_of("0123456789") != string::npos) {
+                    invalidInput = true;
+                }
 
-            if (!invalidInput) {
-                for (string username: users) {
-                    if (strcasecmp(newUsername.c_str(), username.c_str()) == 0) {
-                        taken = true;
-                        break;
+                if (!invalidInput) {
+                    for (string username: users) {
+                        if (strcasecmp(newUsername.c_str(), username.c_str()) == 0) {
+                            taken = true;
+                            break;
+                        }
                     }
                 }
-            }
 
-            if (taken) {
-                print("Username already taken! Try again.");
-                goto REGISTER_ENTER_USERNAME;
-            } else if (invalidInput) {
-                print("Username had less than 3 characters or contained numbers! Try again.");
-                goto REGISTER_ENTER_USERNAME;
-            }
-
-            REGISTER_ENTER_PASSWORD:
-            string newPassword;
-            print("Enter your new password: ", true);
-            cin >> newPassword;
-            if (newPassword.length() < 8) {
-                print("Passwords have to contain at least 8 characters.");
-                goto REGISTER_ENTER_PASSWORD;
-            }
-
-            users.push_back(newUsername);
-            passwords.push_back(newPassword);
-
-            print("Successfully registered!", true);
-            sleep(2);
-        } else if (loginInput == 2) {
-            LOGIN_ENTER_USERNAME:
-            bool invalidInput = true;
-            int userNumber = 0;
-            string user;
-            print("Enter your username: ", true);
-            cin >> user;
-            for (string username: users) {
-                if (strcasecmp(user.c_str(), username.c_str()) == 0) {
-                    invalidInput = false;
-                    break;
+                if (taken) {
+                    cout << endl << "Username already taken! Try again." << endl;
+                    goto REGISTER_ENTER_USERNAME;
+                } else if (invalidInput) {
+                    cout << endl << "Username had less than 3 characters or contained numbers! Try again." << endl;
+                    goto REGISTER_ENTER_USERNAME;
                 }
 
-                userNumber++;
+            REGISTER_ENTER_PASSWORD:
+                string newPassword;
+                cout << endl << "Enter your new password: " << endl;
+                cin >> newPassword;
+                if (newPassword.length() < 8) {
+                    cout << endl << "Passwords have to contain at least 8 characters." << endl;
+                    goto REGISTER_ENTER_PASSWORD;
+                }
+
+                users.push_back(newUsername);
+                passwords.push_back(newPassword);
+
+                cout << endl << "Successfully registered!" << endl;
+                sleep(2);
+                system("cls");
+                break;
             }
 
-            if (invalidInput) {
-                print("Invalid username! Try again.");
-                goto LOGIN_ENTER_USERNAME;
+            case 2: {
+                LOGIN_ENTER_USERNAME:
+                bool invalidInput = true;
+                int userNumber = 0;
+                string user;
+                cout << endl << "Enter your username: " << endl;
+                cin >> user;
+                for (string username: users) {
+                    if (strcasecmp(user.c_str(), username.c_str()) == 0) {
+                        invalidInput = false;
+                        break;
+                    }
+
+                    userNumber++;
+                }
+
+                if (invalidInput) {
+                    cout << endl << "Invalid username! Try again." << endl;
+                    goto LOGIN_ENTER_USERNAME;
+                }
+
+                LOGIN_ENTER_PASSWORD:
+                string password;
+                cout << endl << "Enter your password: " << endl;
+                cin >> password;
+                if (password != passwords[userNumber]) {
+                    cout << endl << "Incorrect password! Try again." << endl;
+                    goto LOGIN_ENTER_PASSWORD;
+                }
+
+                loggedUser = users[userNumber];
+
+                cout << endl << "Successfully logged in as " << loggedUser << "!" << endl;
+                sleep(2);
+                system("cls");
+                break;
             }
 
-            LOGIN_ENTER_PASSWORD:
-            string password;
-            print("Enter your password: ", true);
-            cin >> password;
-            if (password != passwords[userNumber]) {
-                print("Wrong password! Try again.");
-                goto LOGIN_ENTER_PASSWORD;
+            default: {
+                goto SELECT_LOGIN_OPTION;
             }
-
-            loggedUser = users[userNumber];
-
-            print("Successfully logged in!", true);
-            sleep(2);
-        } else {
-            goto SELECT_LOGIN_OPTION;
         }
 
         goto START;
     } else {
         MAIN_MENU:
-        print("Logged in as: " + loggedUser, true);
+        cout << endl << "Logged in as " << loggedUser << "." << endl;
         //TODO: ATM
     }
 
