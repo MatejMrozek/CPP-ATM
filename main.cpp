@@ -173,10 +173,13 @@ int main() {
                 int money;
                 cin >> money;
                 cout << endl;
-                if (balances[loggedUser] - money < 0) {
+                if (money < 0) {
+                    cout << "You can't withdraw negative money." << endl;
+                    sleep(2);
+                    goto WITHDRAWAL;
+                } else if (balances[loggedUser] - money < 0) {
                     cout << "You don't have enough money to withdraw " << money << "CZK." << endl;
                     sleep(2);
-                    system("cls");
                     goto WITHDRAWAL;
                 } else {
                     balances[loggedUser] -= money;
