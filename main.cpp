@@ -27,10 +27,8 @@ vector<int> balances = {
 
 int main() {
     START:
-
     if (loggedUser == -1) {
         SELECT_LOGIN_OPTION:
-
         cout << "------------------------------------------------------" << endl;
         cout << "Welcome to our ATM, please select what you want to do." << endl << endl;
         cout << "1 - Register a new account." << endl;
