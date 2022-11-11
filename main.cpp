@@ -235,7 +235,11 @@ int main() {
                 cout << "How much money do you want to send to " << users[userNumber] << "?" << endl;
                 int money;
                 cin >> money;
-                if (balances[loggedUser] - money < 0) {
+                if (money < 0) {
+                    cout << "You can't send negative money." << endl;
+                    sleep(2);
+                    goto MONEY_TO_SEND;
+                } else if (balances[loggedUser] - money < 0) {
                     cout << endl << "You don't have enough money to send " << money << "CZK to " << users[userNumber] << "." << endl;
                     sleep(2);
                     system("cls");
