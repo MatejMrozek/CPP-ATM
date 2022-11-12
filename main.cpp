@@ -36,122 +36,116 @@ int main() {
         cout << "3 - Exit." << endl;
         cout << "------------------------------------------------------" << endl << endl;
         cout << "Select an option: " << endl;
-        int option;
+        string option;
         cin >> option;
         cout << endl;
-        switch (option) {
-            case 1: {
-                system("cls");
+        if (option == "1") {
+            system("cls");
 
-                cout << "------------------------------------------------------" << endl;
-                cout << "Register a new account" << endl;
-                cout << "------------------------------------------------------" << endl << endl;
+            cout << "------------------------------------------------------" << endl;
+            cout << "Register a new account" << endl;
+            cout << "------------------------------------------------------" << endl << endl;
 
-                REGISTER_ENTER_USERNAME:
-                string newUsername;
-                cout << "Enter your new username: " << endl;
-                cin >> newUsername;
-                cout << endl;
-                if (newUsername.length() < 3) {
-                    cout << "Usernames have to contain at least 3 characters." << endl;
-                    goto REGISTER_ENTER_USERNAME;
-                } else if (newUsername.length() > 16) {
-                    cout << "Usernames cant have more than 16 characters." << endl;
-                    goto REGISTER_ENTER_USERNAME;
-                } else if (newUsername.find_first_of("0123456789") != string::npos) {
-                    cout << "Usernames can't contain numbers." << endl;
-                    goto REGISTER_ENTER_USERNAME;
-                } else if (newUsername.find_first_of(' ') != string::npos) {
-                    cout << "Usernames can't contain spaces." << endl;
-                    goto REGISTER_ENTER_USERNAME;
-                }
-
-                for (const string& username : users) {
-                    if (strcasecmp(newUsername.c_str(), username.c_str()) == 0) {
-                        cout << "Username already taken! Try again." << endl;
-                        goto REGISTER_ENTER_USERNAME;
-                    }
-                }
-
-                REGISTER_ENTER_PASSWORD:
-                string newPassword;
-                cout << "Enter your new password: " << endl;
-                cin >> newPassword;
-                cout << endl;
-                if (newPassword.length() < 8) {
-                    cout << "Passwords have to contain at least 8 characters." << endl;
-                    goto REGISTER_ENTER_PASSWORD;
-                } else if (newPassword.find_first_of(' ') != string::npos) {
-                    cout << "Passwords can't contain spaces." << endl;
-                    goto REGISTER_ENTER_PASSWORD;
-                }
-
-                users.push_back(newUsername);
-                passwords.push_back(newPassword);
-                balances.push_back(0);
-
-                cout << "Successfully registered with username " << newUsername << "!" << endl;
-                sleep(2);
-                system("cls");
-
-                goto SELECT_LOGIN_OPTION;
+            REGISTER_ENTER_USERNAME:
+            string newUsername;
+            cout << "Enter your new username: " << endl;
+            cin >> newUsername;
+            cout << endl;
+            if (newUsername.length() < 3) {
+                cout << "Usernames have to contain at least 3 characters." << endl;
+                goto REGISTER_ENTER_USERNAME;
+            } else if (newUsername.length() > 16) {
+                cout << "Usernames cant have more than 16 characters." << endl;
+                goto REGISTER_ENTER_USERNAME;
+            } else if (newUsername.find_first_of("0123456789") != string::npos) {
+                cout << "Usernames can't contain numbers." << endl;
+                goto REGISTER_ENTER_USERNAME;
+            } else if (newUsername.find_first_of(' ') != string::npos) {
+                cout << "Usernames can't contain spaces." << endl;
+                goto REGISTER_ENTER_USERNAME;
             }
-            case 2: {
-                system("cls");
 
-                cout << "------------------------------------------------------" << endl;
-                cout << "Log into an existing account" << endl;
-                cout << "------------------------------------------------------" << endl << endl;
+            for (const string &username: users) {
+                if (strcasecmp(newUsername.c_str(), username.c_str()) == 0) {
+                    cout << "Username already taken! Try again." << endl;
+                    goto REGISTER_ENTER_USERNAME;
+                }
+            }
 
-                LOGIN_ENTER_USERNAME:
-                int userNumber = 0;
-                string user;
-                cout << "Enter your username: " << endl;
-                cin >> user;
-                cout << endl;
-                bool invalid = true;
-                for (const string& username : users) {
-                    if (strcasecmp(user.c_str(), username.c_str()) == 0) {
-                        invalid = false;
-                        break;
-                    }
+            REGISTER_ENTER_PASSWORD:
+            string newPassword;
+            cout << "Enter your new password: " << endl;
+            cin >> newPassword;
+            cout << endl;
+            if (newPassword.length() < 8) {
+                cout << "Passwords have to contain at least 8 characters." << endl;
+                goto REGISTER_ENTER_PASSWORD;
+            } else if (newPassword.find_first_of(' ') != string::npos) {
+                cout << "Passwords can't contain spaces." << endl;
+                goto REGISTER_ENTER_PASSWORD;
+            }
 
-                    userNumber++;
+            users.push_back(newUsername);
+            passwords.push_back(newPassword);
+            balances.push_back(0);
+
+            cout << "Successfully registered with username " << newUsername << "!" << endl;
+            sleep(2);
+            system("cls");
+
+            goto SELECT_LOGIN_OPTION;
+        } else if (option == "2") {
+            system("cls");
+
+            cout << "------------------------------------------------------" << endl;
+            cout << "Log into an existing account" << endl;
+            cout << "------------------------------------------------------" << endl << endl;
+
+            LOGIN_ENTER_USERNAME:
+            int userNumber = 0;
+            string user;
+            cout << "Enter your username: " << endl;
+            cin >> user;
+            cout << endl;
+            bool invalid = true;
+            for (const string &username: users) {
+                if (strcasecmp(user.c_str(), username.c_str()) == 0) {
+                    invalid = false;
+                    break;
                 }
 
-                if (invalid) {
-                    cout << "Invalid username! Try again." << endl;
-                    goto LOGIN_ENTER_USERNAME;
-                }
+                userNumber++;
+            }
 
-                LOGIN_ENTER_PASSWORD:
-                string password;
-                cout << "Enter your password: " << endl;
-                cin >> password;
-                cout << endl;
-                if (password != passwords[userNumber]) {
-                    cout << "Incorrect password! Try again." << endl;
-                    goto LOGIN_ENTER_PASSWORD;
-                }
+            if (invalid) {
+                cout << "Invalid username! Try again." << endl;
+                goto LOGIN_ENTER_USERNAME;
+            }
 
-                loggedUser = userNumber;
-                cout << "Successfully logged in as " << users[loggedUser] << "!" << endl;
-                sleep(2);
-                system("cls");
-                break;
+            LOGIN_ENTER_PASSWORD:
+            string password;
+            cout << "Enter your password: " << endl;
+            cin >> password;
+            cout << endl;
+            if (password != passwords[userNumber]) {
+                cout << "Incorrect password! Try again." << endl;
+                goto LOGIN_ENTER_PASSWORD;
             }
-            case 3: {
-                system("cls");
-                cout << "Exiting...";
-                sleep(1);
-                return 0;
-            }
-            default: {
-                cout << "Invalid option!" << endl;
-                sleep(2);
-                system("cls");
-                goto SELECT_LOGIN_OPTION;
-            }
+
+            loggedUser = userNumber;
+            cout << "Successfully logged in as " << users[loggedUser] << "!" << endl;
+            sleep(2);
+            system("cls");
+        } else if (option == "3") {
+            system("cls");
+            cout << "Exiting...";
+            sleep(1);
+            return 0;
+        } else {
+            cout << "Invalid option!" << endl;
+            sleep(2);
+            system("cls");
+            goto SELECT_LOGIN_OPTION;
         }
 
         goto START;
@@ -165,106 +159,102 @@ int main() {
         cout << "3 - Log out." << endl;
         cout << "------------------------------------------------------" << endl << endl;
         cout << "Select an option: " << endl;
-        int option;
+        string option;
         cin >> option;
         cout << endl;
-        switch (option) {
-            case 1: {
-                WITHDRAWAL:
-                system("cls");
-                cout << "------------------------------------------------------" << endl;
-                cout << "Money withdrawal" << endl;
-                cout << "------------------------------------------------------" << endl << endl;
-                cout << "How much money do you want to withdraw?" << endl;
-                int money;
-                cin >> money;
-                cout << endl;
-                if (money < 0) {
-                    cout << "You can't withdraw negative money." << endl;
-                    sleep(2);
-                    goto WITHDRAWAL;
-                } else if (balances[loggedUser] - money < 0) {
-                    cout << "You don't have enough money to withdraw " << money << "CZK." << endl;
-                    sleep(2);
-                    goto WITHDRAWAL;
-                } else {
-                    balances[loggedUser] -= money;
-                    cout << "You have withdrawn " << money << "CZK." << endl;
-                    cout << "Your balance is now " << balances[loggedUser] << "CZK." << endl;
-                    sleep(2);
-                    system("cls");
-                    goto MAIN_MENU;
-                }
-            }
-            case 2: {
-                SENDING:
-                system("cls");
-                cout << "------------------------------------------------------" << endl;
-                cout << "Send money" << endl;
-                cout << "------------------------------------------------------" << endl << endl;
-                cout << "Who do you want to send money to?" << endl;
-                string name;
-                cin >> name;
-                cout << endl;
-                int userNumber = 0;
-                bool invalid = true;
-                for (const string &username: users) {
-                    if (strcasecmp(name.c_str(), username.c_str()) == 0) {
-                        invalid = false;
-                        break;
-                    }
-
-                    userNumber++;
-                }
-
-                if (strcasecmp(name.c_str(), users[loggedUser].c_str()) == 0) {
-                    cout << "You can't send money to yourself." << endl;
-                    sleep(2);
-                    system("cls");
-                    goto SENDING;
-                } else if (invalid) {
-                    cout << "This user does not exist." << endl;
-                    sleep(2);
-                    system("cls");
-                    goto SENDING;
-                }
-
-                MONEY_TO_SEND:
-                cout << "How much money do you want to send to " << users[userNumber] << "?" << endl;
-                int money;
-                cin >> money;
-                if (money < 0) {
-                    cout << "You can't send negative money." << endl;
-                    sleep(2);
-                    goto MONEY_TO_SEND;
-                } else if (balances[loggedUser] - money < 0) {
-                    cout << endl << "You don't have enough money to send " << money << "CZK to " << users[userNumber] << "." << endl;
-                    sleep(2);
-                    system("cls");
-                    goto MONEY_TO_SEND;
-                } else {
-                    balances[loggedUser] -= money;
-                    balances[userNumber] += money;
-                    cout << endl << "You have sent " << money << "CZK to " << users[userNumber] << "." << endl;
-                    cout << "Your balance is now " << balances[loggedUser] << "CZK." << endl;
-                    sleep(2);
-                    system("cls");
-                    goto MAIN_MENU;
-                }
-            }
-            case 3: {
-                cout << "Logging out..." << endl;
-                loggedUser = -1;
+        if (option == "1") {
+            WITHDRAWAL:
+            system("cls");
+            cout << "------------------------------------------------------" << endl;
+            cout << "Money withdrawal" << endl;
+            cout << "------------------------------------------------------" << endl << endl;
+            cout << "How much money do you want to withdraw?" << endl;
+            int money;
+            cin >> money;
+            cout << endl;
+            if (money < 0) {
+                cout << "You can't withdraw negative money." << endl;
                 sleep(2);
-                system("cls");
-                goto START;
-            }
-            default: {
-                cout << "Invalid option!" << endl;
+                goto WITHDRAWAL;
+            } else if (balances[loggedUser] - money < 0) {
+                cout << "You don't have enough money to withdraw " << money << "CZK." << endl;
+                sleep(2);
+                goto WITHDRAWAL;
+            } else {
+                balances[loggedUser] -= money;
+                cout << "You have withdrawn " << money << "CZK." << endl;
+                cout << "Your balance is now " << balances[loggedUser] << "CZK." << endl;
                 sleep(2);
                 system("cls");
                 goto MAIN_MENU;
             }
+        } else if (option == "2") {
+            SENDING:
+            system("cls");
+            cout << "------------------------------------------------------" << endl;
+            cout << "Send money" << endl;
+            cout << "------------------------------------------------------" << endl << endl;
+            cout << "Who do you want to send money to?" << endl;
+            string name;
+            cin >> name;
+            cout << endl;
+            int userNumber = 0;
+            bool invalid = true;
+            for (const string &username: users) {
+                if (strcasecmp(name.c_str(), username.c_str()) == 0) {
+                    invalid = false;
+                    break;
+                }
+
+                userNumber++;
+            }
+
+            if (strcasecmp(name.c_str(), users[loggedUser].c_str()) == 0) {
+                cout << "You can't send money to yourself." << endl;
+                sleep(2);
+                system("cls");
+                goto SENDING;
+            } else if (invalid) {
+                cout << "This user does not exist." << endl;
+                sleep(2);
+                system("cls");
+                goto SENDING;
+            }
+
+            MONEY_TO_SEND:
+            cout << "How much money do you want to send to " << users[userNumber] << "?" << endl;
+            int money;
+            cin >> money;
+            if (money < 0) {
+                cout << "You can't send negative money." << endl;
+                sleep(2);
+                goto MONEY_TO_SEND;
+            } else if (balances[loggedUser] - money < 0) {
+                cout << endl << "You don't have enough money to send " << money << "CZK to " << users[userNumber] << "."
+                     << endl;
+                sleep(2);
+                system("cls");
+                goto MONEY_TO_SEND;
+            } else {
+                balances[loggedUser] -= money;
+                balances[userNumber] += money;
+                cout << endl << "You have sent " << money << "CZK to " << users[userNumber] << "." << endl;
+                cout << "Your balance is now " << balances[loggedUser] << "CZK." << endl;
+                sleep(2);
+                system("cls");
+                goto MAIN_MENU;
+            }
+        } else if (option == "3") {
+            cout << "Logging out..." << endl;
+            loggedUser = -1;
+            sleep(2);
+            system("cls");
+            goto START;
+        } else {
+            cout << "Invalid option!" << endl;
+            sleep(2);
+            system("cls");
+            goto MAIN_MENU;
         }
     }
 }
