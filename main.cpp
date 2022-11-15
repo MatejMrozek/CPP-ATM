@@ -161,10 +161,8 @@ int main() {
         cout << "Select an option: " << endl;
         string option;
         cin >> option;
-        cout << endl;
+        system("cls");
         if (option == "1") {
-            WITHDRAWAL:
-            system("cls");
             cout << "------------------------------------------------------" << endl;
             cout << "Money withdrawal" << endl;
             cout << "------------------------------------------------------" << endl << endl;
@@ -175,11 +173,13 @@ int main() {
             if (money < 0) {
                 cout << "You can't withdraw negative money." << endl;
                 sleep(2);
-                goto WITHDRAWAL;
+                system("cls");
+                goto MAIN_MENU;
             } else if (balances[loggedUser] - money < 0) {
                 cout << "You don't have enough money to withdraw " << money << "CZK." << endl;
                 sleep(2);
-                goto WITHDRAWAL;
+                system("cls");
+                goto MAIN_MENU;
             } else {
                 balances[loggedUser] -= money;
                 cout << "You have withdrawn " << money << "CZK." << endl;
@@ -189,7 +189,6 @@ int main() {
                 goto MAIN_MENU;
             }
         } else if (option == "2") {
-            SENDING:
             system("cls");
             cout << "------------------------------------------------------" << endl;
             cout << "Send money" << endl;
@@ -213,12 +212,12 @@ int main() {
                 cout << "You can't send money to yourself." << endl;
                 sleep(2);
                 system("cls");
-                goto SENDING;
+                goto MAIN_MENU;
             } else if (invalid) {
                 cout << "This user does not exist." << endl;
                 sleep(2);
                 system("cls");
-                goto SENDING;
+                goto MAIN_MENU;
             }
 
             MONEY_TO_SEND:
@@ -228,13 +227,13 @@ int main() {
             if (money < 0) {
                 cout << "You can't send negative money." << endl;
                 sleep(2);
-                goto MONEY_TO_SEND;
+                system("cls");
+                goto MAIN_MENU;
             } else if (balances[loggedUser] - money < 0) {
-                cout << endl << "You don't have enough money to send " << money << "CZK to " << users[userNumber] << "."
-                     << endl;
+                cout << endl << "You don't have enough money to send " << money << "CZK to " << users[userNumber] << "." << endl;
                 sleep(2);
                 system("cls");
-                goto MONEY_TO_SEND;
+                goto MAIN_MENU;
             } else {
                 balances[loggedUser] -= money;
                 balances[userNumber] += money;
