@@ -220,7 +220,6 @@ int main() {
                 goto MAIN_MENU;
             }
 
-            MONEY_TO_SEND:
             cout << "How much money do you want to send to " << users[userNumber] << "?" << endl;
             int money;
             cin >> money;
